@@ -1,5 +1,5 @@
-use super::errors::MyError;
-use super::models::*;
+use crate::errors::MyError;
+use crate::models::course::Course;
 use chrono::NaiveDateTime;
 use sqlx::postgres::PgPool;
 
@@ -31,7 +31,7 @@ pub async fn get_courses_for_teacher_db(
     }
 }
 
-pub async fn get_course_datails_db(
+pub async fn get_course_details_db(
     pool: &PgPool,
     teacher_id: i32,
     course_id: i32,

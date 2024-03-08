@@ -1,17 +1,9 @@
-use super::db_access::*;
-use super::errors::MyError;
-use super::state::AppState;
+use crate::state::AppState;
+use crate::dbaccess::course::*;
+use crate::errors::MyError;
+use crate::models::course::Course;
 use actix_web::{web, HttpResponse};
 
-pub async fn health_check_handler(app_state: web::Data<AppState>) -> HttpResponse {
-    let health_check_response = &app_state.health_check_response;
-    let mut visit_count = app_state.visit_count.lock().unwrap();
-    let response = format!("{} {} times", health_check_response, visit_count);
-    *visit_count += 1;
-    HttpResponse::Ok().json(&response)
-}
-
-use super::models::Course;
 
 pub async fn new_course(
     new_course: web::Json<Course>,
@@ -38,7 +30,7 @@ pub async fn get_course_detail(
 ) -> Result<HttpResponse, MyError> {
     let teacher_id = i32::try_from(params.0).unwrap();
     let course_id = i32::try_from(params.1).unwrap();
-    get_course_datails_db(&app_state.db, teacher_id, course_id)
+    get_course_details_db(&app_state.db, teacher_id, course_id)
         .await
         .map(|course| HttpResponse::Ok().json(course))
 }

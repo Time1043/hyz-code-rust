@@ -2,18 +2,17 @@ use actix_web::{web, App, HttpServer};
 use std::io;
 use std::sync::Mutex;
 
-// 数据库连接
 use dotenv::dotenv;
 use sqlx::postgres::PgPoolOptions;
 use std::env;
 
-#[path = "../db_access.rs"]
-mod db_access;
+#[path = "../dbaccess/mod.rs"]
+mod dbaccess;
 #[path = "../errors.rs"]
 mod errors;
-#[path = "../handlers.rs"]
+#[path = "../handlers/mod.rs"]
 mod handlers;
-#[path = "../models.rs"]
+#[path = "../models/mod.rs"]
 mod models;
 #[path = "../routers.rs"]
 mod routers;
