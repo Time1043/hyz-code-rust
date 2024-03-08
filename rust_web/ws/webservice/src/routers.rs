@@ -1,7 +1,5 @@
-use std::ops::Mul;
-
 use super::handlers::*;
-use actix_web::web;
+use actix_web::web::{self, route};
 
 pub fn general_routes(cfg: &mut web::ServiceConfig) {
     cfg.route("/health", web::get().to(health_check_handler));
@@ -9,7 +7,9 @@ pub fn general_routes(cfg: &mut web::ServiceConfig) {
 
 pub fn course_routes(cfg: &mut web::ServiceConfig) {
     cfg.service(
-        web::scope("/courses") // 一系列资源的根路径
-            .route("/", web::post().to(new_course)),  // handler
+        web::scope("/courses")
+            .route("/", web::post().to(new_course))
+            .route("/{user_id}", web::get().to(get_courses_for_teacher)) // handler
+            .route("/{user_id}/{course_id}", web::get().to(get_course_detail)), // handler
     );
 }
