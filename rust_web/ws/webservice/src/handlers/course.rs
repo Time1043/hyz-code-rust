@@ -24,7 +24,7 @@ pub async fn get_courses_for_teacher(
         .map(|courses| HttpResponse::Ok().json(courses))
 }
 
-pub async fn get_course_detail(
+pub async fn get_course_details(
     app_state: web::Data<AppState>,
     params: web::Path<(i32, i32)>,
 ) -> Result<HttpResponse, MyError> {
@@ -119,7 +119,7 @@ mod tests {
         });
 
         let params: web::Path<(i32, i32)> = web::Path::from((1, 1));
-        let resp = get_course_detail(app_state, params).await.unwrap();
+        let resp = get_course_details(app_state, params).await.unwrap();
         assert_eq!(resp.status(), StatusCode::OK);
     }
 
@@ -135,7 +135,7 @@ mod tests {
         });
 
         let params: web::Path<(i32, i32)> = web::Path::from((1, 100));
-        let resp = get_course_detail(app_state, params).await;
+        let resp = get_course_details(app_state, params).await;
         match resp {
             Ok(_) => println!("Something wrong ..."),
             Err(err) => assert_eq!(err.status_code(), StatusCode::NOT_FOUND),
